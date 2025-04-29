@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hej till dig som ser detta</title>
+  <link rel="icon" href="favicon.ico" />
+  <!-- Pixel font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Färger & Typsnitt ===== */
+    :root {
+      --font-base: 'Press Start 2P', cursive;
+      --clr-bg: #0f0f0f;
+      --clr-panel: #1e1e1e;
+      --clr-accent: #3d9970;
+      --clr-text: #ffffff;
+      --clr-border: #3d9970;
+    }
+    /* ===== Reset ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      position: relative;
+      font-family: var(--font-base);
+      color: var(--clr-text);
+      overflow-x: hidden;
+      padding-bottom: 80px; /* Minska plats för fixed footer */
+    }
+    /* Frosted glass bakgrund */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('grass_block_texture.png') repeat;
+      filter: blur(4px);
+      z-index: -1;
+    }
+    a { color: var(--clr-accent); text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ===== Header ===== */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(30,30,30,0.8);
+      backdrop-filter: blur(4px);
+      border-bottom: 4px solid var(--clr-border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100;
+    }
+    .logo { font-size: 1.5rem; color: var(--clr-accent); }
+    nav ul { display: flex; gap: 1rem; }
+    nav a {
+      padding: 0.5rem 1rem;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    nav a:hover { border-color: var(--clr-border); }
+
+    /* ===== Hero ===== */
+    .hero {
+      margin: 100px auto 2rem; /* Rensa plats under header */
+      padding: 2rem;
+      text-align: center;
+      background: rgba(30,30,30,0.6);
+      backdrop-filter: blur(4px);
+      border: 4px solid var(--clr-border);
+      max-width: 600px;
+      z-index: 1;
+    }
+    .hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1rem; margin: 0; }
+
+    /* ===== Sektionstitel ===== */
+    .section-title {
+      text-align: center;
+      font-size: 1.8rem;
+      margin: 2rem 0 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 80px; height: 4px;
+      background: var(--clr-border);
+      margin: 0.5rem auto 0;
+    }
+
+    /* ===== Undertext ===== */
+    .subtext {
+      text-align: center;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+      color: var(--clr-text);
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    /* ===== Koordinater ===== */
+    .coords-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 1rem;
+      padding: 0 2rem;
+      z-index: 1;
+    }
+    .coord-card {
+      background: rgba(30,30,30,0.6);
+      backdrop-filter: blur(4px);
+      border: 3px solid var(--clr-border);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .coord-name {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--clr-accent);
+    }
+
+    /* ===== Galleri ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 1rem;
+      padding: 0 2rem 2rem;
+      z-index: 1;
+    }
+    .gallery-grid img {
+      width: 100%; display: block;
+      border: 3px solid var(--clr-border);
+      cursor: pointer;
+    }
+
+    /* ===== Modal ===== */
+    .modal {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      justify-content: center; align-items: center;
+      z-index: 200;
+    }
+    .modal.open { display: flex; }
+    .modal-content {
+      position: relative;
+      max-width: 90%; max-height: 90%;
+    }
+    .modal-content img {
+      width: 100%; height: auto;
+      border: 4px solid var(--clr-border);
+    }
+    .close-btn {
+      position: absolute;
+      top: -10px; right: -10px;
+      background: var(--clr-panel);
+      border: 2px solid var(--clr-border);
+      width: 32px; height: 32px;
+      font-size: 1.2rem; color: var(--clr-text);
+      cursor: pointer;
+    }
+
+    /* ===== Sticky Footer ===== */
+    footer {
+      position: fixed;
+      bottom: 0; left: 0; width: 100%;
+      text-align: center;
+      padding: 0.5rem 0; /* Minska höjd */
+      background: rgba(30,30,30,0.8);
+      backdrop-filter: blur(4px);
+      border-top: 4px solid var(--clr-border);
+      z-index: 100;
+    }
+
+    /* ===== Responsiv ===== */
+    @media (max-width: 600px) {
+      nav ul { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Minecraftserversaken</div>
+    <nav>
+      <ul>
+        <li><a href="#hem">Hem</a></li>
+        <li><a href="#koordinater">Koordinater</a></li>
+        <li><a href="#galleri">Galleri</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hem -->
+    <section id="hem" class="hero">
+      <h1>EvertSMP!</h1>
+      <p>IP: <span class="coord-name">play.varmcserver.se</span></p>
+    </section>
+
+    <!-- Koordinater -->
+    <h2 class="section-title">Viktiga koordinater</h2>
+    <div id="koordinater" class="coords-grid">
+      <div class="coord-card">
+        <div class="coord-name">Vår by sak</div>
+        X: 223, Y: 95, Z: 1588
+      </div>
+      <div class="coord-card">
+        <div class="coord-name">End portal</div>
+        X: 2092, Y: -36, Z: 1436
+      </div>
+      <div class="coord-card">
+        <div class="coord-name">placeholder</div>
+        X: -10, Y: 64, Z: 200
+      </div>
+      <div class="coord-card">
+        <div class="coord-name">placeholder</div>
+        X: 223, Y: 95, Z: 1588
+      </div>
+    </div>
+
+    <!-- Galleri -->
+    <h2 class="section-title">Galleri</h2>
+    <p class="subtext">Tryck för att visa</p>
+    <div id="galleri" class="gallery-grid">
+      <img src="smp1.png" alt="Bild 1">
+      <img src="smp2.png" alt="Bild 2">
+      <img src="smp3.png" alt="Bild 3">
+      <img src="smp4.png" alt="Bild 4">
+      <img src="smp5.png" alt="Bild 5">
+      <img src="smp6.png" alt="Bild 6">
+      <img src="smp7.png" alt="Bild 7">
+      <img src="smp8.png" alt="Bild 8">
+      <img src="smp9.png" alt="Bild 9">
+      <img src="smp10.png" alt="Bild 10">
+      <img src="smp11.png" alt="Bild 11">
+      <img src="smp12.png" alt="Bild 12">
+      <img src="smp13.png" alt="Bild 13">
+      <img src="smp14.png" alt="Bild 14">
+      <img src="smp15.png" alt="Bild 15">
+      <img src="smp16.png" alt="Bild 16">
+      <img src="smp17.png" alt="Bild 17">
+      <img src="smp18.png" alt="Bild 18">
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" id="closeBtn">×</button>
+      <img src="" alt="">
+    </div>
+  </div>
+
+  <footer>
+    Folk i servern: Ivar, Hannes, Arvid, Holger, Elliot, Elias, Anton St, Anton Sä (typ), Alvar, William.
+  </footer>
+
+  <script>
+    // Modal functionality
+    const modal = document.getElementById('modal');
+    const modalImg = modal.querySelector('img');
+    const closeBtn = document.getElementById('closeBtn');
+    document.querySelectorAll('.gallery-grid img').forEach(img => {
+      img.addEventListener('click', () => {
+        modalImg.src = img.src;
+        modal.classList.add('open');
+      });
+    });
+    closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+  </script>
+</body>
+</html>
